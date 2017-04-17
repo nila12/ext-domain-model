@@ -300,7 +300,7 @@ open class Family: CustomStringConvertible {
             
         }
         return sum
-
+        
     }
 }
 
