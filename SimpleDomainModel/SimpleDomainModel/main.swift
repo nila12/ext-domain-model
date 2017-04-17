@@ -18,6 +18,13 @@ open class TestMe {
     }
 }
 
+extension Double {
+    var USD: Money { return Money(amount: Int(self), currency: "USD")}
+    var EUR: Money { return Money(amount: Int(self), currency: "EUR")}
+    var GBP: Money { return Money(amount: Int(self), currency: "GBP")}
+    var CAN: Money { return Money(amount: Int(self), currency: "CAN")}
+}
+
 ////////////////////////////////////
 // Money
 //
