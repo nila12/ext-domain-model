@@ -21,9 +21,18 @@ open class TestMe {
 ////////////////////////////////////
 // Money
 //
-public struct Money {
+protocol Mathematics {
+    func add(_ : Money) -> Money
+    func subtract(_ : Money) -> Money
+}
+
+public struct Money: CustomStringConvertible, Mathematics {
     public var amount : Int
     public var currency : String
+    
+    public var description: String {
+        return "\(currency)\(amount)"
+    }
     
     public func convert(_ to: String) -> Money {
         
@@ -139,9 +148,23 @@ public struct Money {
 // Job
 //
 
-open class Job {
+open class Job: CustomStringConvertible {
     fileprivate var title : String
     fileprivate var type : JobType
+    
+    public var description: String {
+        
+        var concat: String = "\(title), "
+        
+        switch type {
+        case .Hourly(let pay):
+            concat += "hourly $\(pay)"
+        case .Salary(let salary):
+            concat += "salary $\(salary)"
+        }
+        
+        return concat
+    }
     
     public enum JobType {
         case Hourly(Double)
@@ -179,10 +202,23 @@ open class Job {
 ////////////////////////////////////
 // Person
 //
-open class Person {
+open class Person: CustomStringConvertible {
     open var firstName : String = ""
     open var lastName : String = ""
     open var age : Int = 0
+    
+    public var description: String {
+        var concat: String = "\(firstName) \(lastName) is \(age) years old and is "
+        
+        switch job {
+        case nil:
+            concat += "unemployed"
+        default:
+            concat += "employed as a \(job)"
+        }
+        
+        return concat
+    }
     
     fileprivate var _job : Job? = nil
     open var job : Job? {
@@ -223,7 +259,7 @@ open class Person {
 ////////////////////////////////////
 // Family
 //
-open class Family {
+open class Family: CustomStringConvertible {
     fileprivate var members : [Person] = []
     
     public init(spouse1: Person, spouse2: Person) {
@@ -233,6 +269,20 @@ open class Family {
         }
         members.append(spouse1)
         members.append(spouse2)
+    }
+    
+    public var description: String {
+        var concat: String = "Family members: "
+        
+        if (members.isEmpty) {
+            return concat + "None"
+        }
+        
+        for person in members {
+            concat += "\(person)"
+        }
+        
+        return concat + "\nHousehold income: $\(householdIncome())"
     }
     
     open func haveChild(_ child: Person) -> Bool {
