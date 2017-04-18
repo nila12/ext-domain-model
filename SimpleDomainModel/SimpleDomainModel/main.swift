@@ -221,7 +221,7 @@ open class Person: CustomStringConvertible {
         case nil:
             concat += "unemployed"
         default:
-            concat += "employed as a \(job)"
+            concat += "employed as a \(job!)"
         }
         
         return concat
